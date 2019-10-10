@@ -9,6 +9,8 @@
   ** 3. Your browser should automatically download the generated `lectures.vcs` file.
   ** 4. Open this file with your calendar program (such as Outlook or Calendar.app).
   ** 5. Seek help from your nearest Computer Science student in case of failure.
+  **
+  ** For improvements to the code, please submit a PR to https://github.com/james2mid/timetable-vcs.
 */
 
 const HALF_HOUR = 30 * 60 * 1000
