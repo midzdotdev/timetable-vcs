@@ -1,4 +1,4 @@
-# timetable-vcs
+# Timetable to Calendar
 This script allows Loughborough University students to easily import all lectures as events into a calendar.
 
 ## How Can I Use It?
