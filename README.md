@@ -4,7 +4,7 @@ This script allows Loughborough University students to easily import all lecture
 ## How Can I Use It?
 It's quite easy really and it should take **less than a minute to complete**.
 
-1. Open your timetable and set the `Period` dropdown box as "Semester 1" or "Semester 2".
+1. Open [your timetable](https://lucas.lboro.ac.uk/its_apx/f?p=250) and set the `Period` dropdown box as "Semester 1" or "Semester 2".
 2. Open the [browser's console](https://support.airtable.com/hc/en-us/articles/232313848-How-to-open-the-developer-console).
 3. Copy and paste the [entire script](/script.js) in and hit enter to execute.
 4. Your browser should automatically download the generated `lectures.vcs` file.
