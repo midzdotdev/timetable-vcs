@@ -1,5 +1,3 @@
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-
 # NERDS README for timetable-vcs
 I guess you like this little script and want to learn a bit more about how it works.
 
