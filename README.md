@@ -3,7 +3,7 @@
 # Timetable to Calendar
 This script allows Loughborough University students to easily import all lectures as events into a calendar.
 
-## How Can I Use It?
+## How Do I Use It?
 It's quite easy really and it should take **less than a minute to complete**.
 
 1. Open [your timetable](https://lucas.lboro.ac.uk/its_apx/f?p=250) and set the `Period` dropdown box as "Semester 1" or "Semester 2".
