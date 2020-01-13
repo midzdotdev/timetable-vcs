@@ -41,7 +41,12 @@ function getRowDay (row) {
 
 (function () {
   // -- ensure the period dropdown has the correct item selected
-  if ($('#P2_MY_PERIOD').val() !== 'sem1' && $('#P2_MY_PERIOD').val() !== 'sem2') {
+  const semester =
+    $('#P2_MY_PERIOD').val() === 'sem1' ? 1 :
+    $('#P2_MY_PERIOD').val() === 'sem2' ? 2 :
+    null
+  
+  if (!semester) {
     alert('Ensure that the "Period" dropdown box is set as "Semester 1" or "Semester 2"')
     return
   }
@@ -103,7 +108,7 @@ function getRowDay (row) {
   const weekStartDates = [null, ...$('#P2_MY_PERIOD > option')
     .get()
     .map(x => x.innerText)
-    .filter(x => x.includes('Sem 1 - Wk'))
+    .filter(x => x.includes(`Sem ${semester} - Wk`))
     .map(x => /^Sem \d - Wk \d{1,2} \(starting (\d{1,2}-[A-Z]{3}-\d{4})\)$/.exec(x))
     .map(x => new Date(x[1]).getTime())
   ]
