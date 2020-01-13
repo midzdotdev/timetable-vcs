@@ -1,36 +1,51 @@
 /*
   ** Created with <3 by James Middleton (hello@jamesmiddleton.me)
   ** ------------------------------
-  ** This script allows Loughborough University students to easily import all lectures as events into a calendar.
+  ** This script allows Loughborough University students to easily import all lectures as events into a calendar app.
   **
-  ** HOW TO USE:
-  ** 1. Open your timetable and set the `Period` dropdown box as "Semester #".
-  ** 2. Open the browsers console, paste this entire script and hit enter.
-  ** 3. Your browser should automatically download the generated `lectures.vcs` file.
-  ** 4. Open this file with your calendar program (such as Outlook or Calendar.app).
-  ** 5. Seek help from your nearest Computer Science student in case of failure.
-  **
-  ** For improvements to the code, please submit a PR to https://github.com/james2mid/timetable-vcs.
+  ** For instructions and PRs, please visit the GitHub repository (https://github.com/james2mid/timetable-vcs).
 */
 
+// -- CONSTANTS
+
+/** The number of milliseconds in one half-hour. */
 const HALF_HOUR = 30 * 60 * 1000
+/** The number of milliseconds in one hour. */
 const HOUR = HALF_HOUR * 2
+/** The number of milliseconds in one day. */
 const DAY = HOUR * 24
 
 /** Zero-based days of week array. */
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+// -- UTILITY FUNCTIONS
 
 /** Flattens an array by one level. Included for older browser compatibility (and Edge ;) ). */
 function flat (arr) {
   return [].concat.apply([], arr)
 }
 
+/** Pads a digit with zeroes to return a two-digit string. */
+function padZeroes (s) {
+  return String(s).length === 1 ? `0${s}` : s
+}
+
+/** Converts milliseconds to the VCS date format. */
+function msToVeventDate (ms) {
+  const date = new Date(ms)
+  return `${date.getFullYear()}${padZeroes(date.getUTCMonth() + 1)}${padZeroes(date.getUTCDate())}T${padZeroes(date.getUTCHours())}${padZeroes(date.getUTCMinutes())}${padZeroes(date.getUTCSeconds())}Z`
+}
+
+// -- FUNCTIONS USED IN MAIN
+
 /** Gets the day of week (zero-based) of the given row. */
 function getRowDay (row) {
   let dayText = null
 
-  // overlapping sessions are place on adjacent rows which do not contain the weekday
-  // keep going to the previous row until the weekday is found
+  // sessions whose durations overlap, are placed on adjacent rows
+  // these rows do not contain data about the weekday
+  // so retrace rows until the current weekday is determined
+
   while (!dayText && $(row).prev()[0] !== row) {
     dayText = $(row).find('.weekday').text()
     row = $(row).prev()
@@ -39,8 +54,8 @@ function getRowDay (row) {
   return DAYS.indexOf(dayText)
 }
 
-(function () {
-  // -- ensure the period dropdown has the correct item selected
+(function main () {
+  // -- Establish that the correct data is included in the table – prompt to change if not.
   const semester =
     $('#P2_MY_PERIOD').val() === 'sem1' ? 1 :
     $('#P2_MY_PERIOD').val() === 'sem2' ? 2 :
@@ -51,7 +66,8 @@ function getRowDay (row) {
     return
   }
 
-  // -- extract data from each session
+  // -- Parse the table HTML to get the session data – each containing one or multiple events.
+
   const rows = $('.tt_info_row').get()
 
   const sessions = rows.reduce((sessions, row) => {
@@ -95,7 +111,8 @@ function getRowDay (row) {
     return sessions
   }, [])
 
-  // -- remove extra whitespace from session string fields
+  // -- Remove the potentially trashy parts of the sessions.
+
   sessions.forEach(session => {
     Object.keys(session).forEach(key => {
       if (session[key] && typeof session[key] === 'string') {
@@ -104,7 +121,9 @@ function getRowDay (row) {
     })
   })
 
-  // -- convert sessions into individual events
+  // -- Convert sessions into individual events.
+
+  /** The beginning of the each week as a `Date` in the current semester. Array index equal to week number. */
   const weekStartDates = [null, ...$('#P2_MY_PERIOD > option')
     .get()
     .map(x => x.innerText)
@@ -113,17 +132,10 @@ function getRowDay (row) {
     .map(x => new Date(x[1]).getTime())
   ]
 
+  /** The start of the days as a `Date` as displayed in the timetable (generally 9AM). */
   const timetableStart = +$('.first_time_slot_col').first().text().split(':')[0] * HOUR
 
-  function padZeroes (s) {
-    return String(s).length === 1 ? `0${s}` : s
-  }
-
-  function msToVeventDate (ms) {
-    const date = new Date(ms)
-    return `${date.getFullYear()}${padZeroes(date.getUTCMonth() + 1)}${padZeroes(date.getUTCDate())}T${padZeroes(date.getUTCHours())}${padZeroes(date.getUTCMinutes())}${padZeroes(date.getUTCSeconds())}Z`
-  }
-
+  /** Every event for the current semester as objects whose keys match the VCS specification. */
   const events = sessions.reduce((events, session) => {
     events.push(...session.weeks.map(weekNumber => {
       const startTime = weekStartDates[weekNumber] + (DAY * session.day) + timetableStart + session.timeOffset
@@ -141,7 +153,7 @@ function getRowDay (row) {
     return events
   }, [])
 
-  // -- generate the contents of the VCS file
+  // -- Make a long string containing the events following the VCS specification.
   const contents = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
@@ -155,6 +167,7 @@ function getRowDay (row) {
     'END:VCALENDAR',
   ].join('\r\n')
 
+  // -- Download the string as a virtual file.
   const blob = new Blob([ contents ], {
     type: 'text/calendar'
   })
@@ -167,11 +180,11 @@ function getRowDay (row) {
   // short delay for the DOM to update
   setTimeout(() => {
     a.click()
-  }, 100)
 
-  // uses setTimeout so that Edge can download the file
-  setTimeout(() => {
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-  }, 1000)
+    // uses setTimeout so that Edge can download the file
+    setTimeout(() => {
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    }, 1000)
+  }, 100)
 })()
