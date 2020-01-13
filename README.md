@@ -1,3 +1,5 @@
+<img src="/timetable-vcs-logo.svg" height="200px" alt="Logo" />
+
 # Timetable to Calendar
 This script allows Loughborough University students to easily import all lectures as events into a calendar.
 
