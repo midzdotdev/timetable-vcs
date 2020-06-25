@@ -3,6 +3,8 @@
 # Timetable to Calendar
 This script allows Loughborough University students to easily import all lectures as events into a calendar.
 
+_For those who don't have access to a lboro timetable, and for future reference, see the [example pages](./example/README.md)._
+
 ## How Do I Use It?
 It's quite easy really and it should take **less than a minute to complete**.
 
