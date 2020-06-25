@@ -9,12 +9,12 @@ _If you've got your own GitHub account, I'd appreciate it if you gave me a [star
 ## The Algorithm
 The following is a summary describing the steps taken to make this thing work. _Click on any to forward to the relevant line._
 
-* [Establish that the correct data is included in the table – prompt to change if not](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L58)
-* [Parse the table HTML to get the session data – each containing one or multiple events.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L69)
-* [Remove the potentially trashy parts of the sessions.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L114)
-* [Convert sessions into individual events.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L124)
-* [Make a long string containing the events following the VCS specification.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L156)
-* [Download the string as a virtual file.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L170)
+1. [Establish that the correct data is included in the table – prompt to change if not](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L58)
+2. [Parse the table HTML to get the session data – each containing one or multiple events.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L69)
+3. [Remove the potentially trashy parts of the sessions.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L114)
+4. [Convert sessions into individual events.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L124)
+5. [Make a long string containing the events following the VCS specification.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L156)
+6. [Download the string as a virtual file.](https://github.com/james2mid/timetable-vcs/blob/master/script.js#L170)
 
 ## Further Developments
 The following are ideas to further the development of this mini-project:
