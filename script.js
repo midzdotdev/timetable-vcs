@@ -94,7 +94,7 @@ function getRowDay (row) {
             const r = /(\d{1,2})\s+-\s+(\d{1,2})/.exec(x)
             return r
               // a range, e.g '9 - 11' meaning weeks 9, 10 and 11
-              ? Array.from(Array(r[2] - r[1])).map((_, i) => +r[1] + i) // expand range
+              ? Array.from(Array(r[2] - r[1] + 1)).map((_, i) => +r[1] + i) // expand range
               // not a range, e.g. '6' meaning only week 6
               : [ +x ]
           }))
